@@ -81,8 +81,11 @@
             var lon = pos.coords.longitude;
 
             var map = L.map('map').setView([lat, lon], 20);
-            mapLink = "<a href='http://openstreetmap.org'>OpenStreetMap</a>";
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 18 }).addTo(map);
+           
+            googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+            }).addTo(map);
 
             var taxiIcon = L.icon({
                 iconUrl: 'placeholder.png',
