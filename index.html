@@ -43,7 +43,13 @@
     <div class="container">
         <div class="left-panel">
             <div class="patient-card-body">
-                Geometry: <input type="text" id="lat_box" readonly> <input type="text" id="lng_box" readonly> <input type="text" id="marker_id" readonly>
+                Geometry: <input type="text" id="lat_box" readonly> <input type="text" id="lng_box" readonly> <input
+                    type="text" id="marker_id" readonly>
+
+                <p id="lat" class="coordinates"></p>
+                <span>Latitude</span>
+                <p id="lng" class="coordinates">124.235</p>
+                <span>Longitude</span>
 
                 <a href="#" id="accept_ride_btn"><button>Accept Ride</button></a>
             </div>
@@ -60,6 +66,8 @@
         const lng_box = document.getElementById('lng_box');
         const mark_id_box = document.getElementById('marker_id');
         const Accept_Ride_Btn = document.getElementById('accept_ride_btn');
+        const my_lat_box = document.getElementById('lat');
+        const my_lng_box = document.getElementById('lng');
 
         console.log(Accept_Ride_Btn);
         var latLangArray = [[22.920484574516067, 88.45001808595333], [22.91913099803335, 88.42446631646307], [22.937668952759964, 88.43568691247256], [22.934536133601217, 88.45294531119123]];
@@ -112,44 +120,47 @@
                 }).on('routesfound', function (e) {
                     var routes = e.routes;
                     console.log(routes[0]['summary']);
-                    //Edited code statrs here
-                    navigator.geolocation.watchPosition(w_success, w_error);
-                    function w_success(pos) {
-                        marker.setLatLng([pos.coords.latitude, pos.coords.longitude])
-                    }
-                    function w_error(err) {
-                        //Error to display
-                    }
+                    //Edited code statrs her
 
                 }).addTo(map);
             });
+            navigator.geolocation.watchPosition(w_success, w_error);
+            function w_success(pos) {
+                marker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
+                map.setView([pos.coords.latitude, pos.coords.longitude]);
+                my_lat_box.innerHTML = pos.coords.latitude;
+                my_lng_box.innerHTML = pos.coords['longitude'];
+            }
+            function w_error(err) {
+                //Error to display
+            }
 
             // map.on('click', function (e) {
             //     console.log(e)
-                // var newMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-                // L.Routing.control({
-                //     waypoints: [
-                //         L.latLng(lat, lon),
-                //         L.latLng(e.latlng.lat, e.latlng.lng)
-                //     ]
-                // }).on('routesfound', function (e) {
-                //     var routes = e.routes;
-                //     console.log(routes[0]['summary']);
-                //     //Edited code statrs here
-                //     navigator.geolocation.watchPosition(w_success, w_error);
-                //     function w_success(pos) {
-                //         marker.setLatLng([pos.coords.latitude, pos.coords.longitude])
-                //     }
-                //     function w_error(err) {
-                //         //Error to display
-                //     }
-                //     // e.routes[0].coordinates.forEach(function (coord, index) {
-                //     //     setTimeout(function () {
-                //     //         marker.setLatLng([coord.lat, coord.lng]);
-                //     //     }, 100 * index)
-                //     // });
+            // var newMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+            // L.Routing.control({
+            //     waypoints: [
+            //         L.latLng(lat, lon),
+            //         L.latLng(e.latlng.lat, e.latlng.lng)
+            //     ]
+            // }).on('routesfound', function (e) {
+            //     var routes = e.routes;
+            //     console.log(routes[0]['summary']);
+            //     //Edited code statrs here
+            //     navigator.geolocation.watchPosition(w_success, w_error);
+            //     function w_success(pos) {
+            //         marker.setLatLng([pos.coords.latitude, pos.coords.longitude])
+            //     }
+            //     function w_error(err) {
+            //         //Error to display
+            //     }
+            //     // e.routes[0].coordinates.forEach(function (coord, index) {
+            //     //     setTimeout(function () {
+            //     //         marker.setLatLng([coord.lat, coord.lng]);
+            //     //     }, 100 * index)
+            //     // });
 
-                // }).addTo(map);
+            // }).addTo(map);
             // });
         }
 
